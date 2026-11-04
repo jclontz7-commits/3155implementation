@@ -184,9 +184,6 @@ The current Student Login implementation is a front-end prototype.
 
 Future development can include real authentication, database integration, and additional student and professor functionality.
 
-## Team Contributions
-
-NEED TO ADD MORE HERE
 
 ## Project Deliverables
 
