@@ -1,0 +1,394 @@
+:root {
+  color-scheme: light;
+  font-family: Arial, sans-serif;
+  color: #242a25;
+  background: #d0d0d0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --green: #2f6038;
+  --green-dark: #244b2c;
+  --lavender: #898bff;
+  --muted: #6b716c;
+  --line: #e5e8e4;
+  --white: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.page-shell {
+  width: min(1120px, calc(100% - 40px));
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.site-header {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(47, 96, 56, 0.18);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--green-dark);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  border-radius: 2px;
+  color: var(--white);
+  background: var(--green);
+  font-size: 16px;
+}
+
+.student-label {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+}
+
+main {
+  flex: 1;
+}
+
+.listings-page {
+  max-width: 930px;
+  margin: 0 auto;
+  padding: 46px 0 58px;
+}
+
+.page-heading {
+  max-width: 620px;
+  margin-bottom: 30px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 10px;
+  color: var(--green-dark);
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.intro {
+  margin-bottom: 0;
+  color: #59615a;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.listing-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.search-control {
+  min-width: 220px;
+  height: 44px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 13px;
+  border: 1px solid #d5dad4;
+  background: var(--white);
+}
+
+.search-control:focus-within,
+.sort-control select:focus-visible {
+  outline: 2px solid var(--lavender);
+  outline-offset: 2px;
+}
+
+.search-control svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  fill: none;
+  stroke: #717a72;
+  stroke-linecap: round;
+  stroke-width: 1.7;
+}
+
+.search-control input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  color: #263229;
+  background: transparent;
+  font-size: 13px;
+}
+
+.search-control input::placeholder {
+  color: #888f89;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #5e665f;
+  font-size: 12px;
+}
+
+.sort-control select {
+  height: 44px;
+  min-width: 154px;
+  padding: 0 30px 0 12px;
+  border: 1px solid #d5dad4;
+  border-radius: 0;
+  color: #303a31;
+  background-color: var(--white);
+  font-size: 12px;
+}
+
+.results-count {
+  margin: 0 0 12px;
+  color: #687169;
+  font-size: 11px;
+}
+
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.listing-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 21px;
+  border: 1px solid #e4e7e2;
+  background: var(--white);
+}
+
+.card-topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.department {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.posted-date {
+  flex: 0 0 auto;
+  color: #858b85;
+  font-size: 9px;
+}
+
+.listing-card h2 {
+  margin: 0 0 5px;
+  color: #27382b;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.faculty {
+  margin-bottom: 13px;
+  color: #737b74;
+  font-size: 11px;
+}
+
+.description {
+  min-height: 54px;
+  margin-bottom: 14px;
+  color: #515951;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.area-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: auto 0 17px;
+  padding: 0;
+  list-style: none;
+}
+
+.area-tags li {
+  padding: 5px 8px;
+  color: #4a574b;
+  background: #eef2ed;
+  font-size: 9px;
+}
+
+.card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #edf0ec;
+  font-size: 10px;
+}
+
+.commitment {
+  color: #667067;
+}
+
+.deadline {
+  color: #554fbb;
+  font-weight: 700;
+}
+
+.empty-state {
+  padding: 48px 20px;
+  border: 1px solid #e4e7e2;
+  background: rgba(255, 255, 255, 0.72);
+  text-align: center;
+}
+
+.empty-icon {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 12px;
+  color: var(--green);
+  background: #e8eee8;
+  font-size: 24px;
+}
+
+.empty-state h2 {
+  margin-bottom: 6px;
+  color: var(--green-dark);
+  font-size: 17px;
+}
+
+.empty-state p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.site-footer {
+  padding: 16px 0 22px;
+  border-top: 1px solid rgba(47, 96, 56, 0.18);
+  color: #687169;
+  font-size: 10px;
+  text-align: center;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 650px) {
+  .page-shell {
+    width: min(100% - 28px, 500px);
+  }
+
+  .site-header {
+    min-height: 64px;
+  }
+
+  .listings-page {
+    padding: 32px 0 42px;
+  }
+
+  .listing-controls {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-control {
+    min-width: 0;
+    flex: none;
+  }
+
+  .sort-control {
+    justify-content: space-between;
+  }
+
+  .sort-control select {
+    flex: 1;
+  }
+
+  .listings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .description {
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -195,3 +195,17 @@ Future development can include real authentication, database integration, and ad
 - Git commit history
 - README documentation
 - Pull request and merge into the main branch
+
+## Research Listings
+
+The research listings prototype displays six sample research opportunities. Students can search by project title, description, faculty, department, or research area, and sort by newest posting, title, or application deadline.
+
+Run the page from the project directory with:
+
+```bash
+python3 -m http.server 8000
+```
+
+Open <http://localhost:8000> in a browser. Listings are prototype data and are not connected to a research API.
+
+[View the Research Listings Figma frame](https://www.figma.com/proto/d0P8tCCwxmCInTN8C4LEjg/Main?node-id=6-5&t=RjfB5uCHilmrC0Kn-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A2)
