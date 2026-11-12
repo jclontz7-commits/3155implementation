@@ -198,6 +198,8 @@ Future development can include real authentication, database integration, and ad
 
 ## Research Listings
 
+Students can search and sort research listings, open an opportunity to view its faculty contact and details, and return to the listings at any time. The opportunity page includes an application form with required fields and browser validation. Since this is a front-end prototype without a backend, completing the form displays a demo confirmation but does not send or store the application.
+
 The research listings prototype displays six sample research opportunities. Students can search by project title, description, faculty, department, or research area, and sort by newest posting, title, or application deadline.
 
 Run the page from the project directory with:
