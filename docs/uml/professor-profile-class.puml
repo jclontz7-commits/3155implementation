@@ -1,0 +1,64 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam backgroundColor white
+hide methods
+top to bottom direction
+title Professor profile — proposed model (not implemented)
+
+  class ProfessorProfile <<entity>> {
+    +id: UUID {PK}
+    +userId: String {unique, required}
+    +displayName: String {required, max 80}
+    +degree: String {max 200}
+    +department: String {max 120}
+    +education: Text {max 2000}
+    +about: Text {max 5000}
+    +researchAreas: List<String>
+    +contactEmail: String {optional, email}
+    +virtualOfficeUrl: String {optional, HTTPS}
+    +officeHours: String {max 500}
+    +updatedAt: Instant
+    +version: Integer {>= 1}
+  }
+  class ProfileImage <<value object>> {
+    +storageKey: String {private object reference}
+    +originalName: String
+    +mediaType: String {PNG, JPEG, WebP}
+    +sizeBytes: Integer {1..2097152}
+  }
+  ProfessorProfile "1" *-- "0..1" ProfileImage : photo
+  class AuthenticatedUser <<external identity>> {
+    +id: String
+    +role: String {professor}
+  }
+  class PostedOpportunitySummary <<external read model>> {
+    +id: String
+    +professorUserId: String
+    +title: String
+    +description: String
+    +department: String
+    +areas: List<String>
+    +posted: Date
+    +deadline: Date
+    +commitment: String
+    +status: String {published}
+  }
+AuthenticatedUser "1" -- "0..1" ProfessorProfile : owns
+AuthenticatedUser "1" -- "0..*" PostedOpportunitySummary : authored posts
+
+note left of ProfessorProfile
+  Proposal only: no database or ORM selected.
+  Only the authenticated owner may edit.
+  Update succeeds only if stored version matches.
+  All attributes above belong to one profile aggregate.
+end note
+note bottom of PostedOpportunitySummary
+  Read-only integration contract, not a new post table.
+  Profile reads published posts by owner userId.
+  Main's listings have no stable IDs or owner IDs.
+  Post team must provide both before reliable filtering.
+  Post creation/editing is outside this feature.
+end note
+@enduml

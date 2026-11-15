@@ -1,0 +1,14 @@
+{
+  "plantuml_version": "1.2026.10",
+  "jar_sha256": "e9bc9e6b2eb715e8c0c929f3dcb5fc1923be13f37599b09c293c66d354e88686",
+  "artifacts": {
+    "professor-profile-class.puml": {
+      "source_sha256": "ac8841a538a6ec7c8621441219c590c871ff5d29ef693026cbd3ed25e4d9e552",
+      "svg_sha256": "63ea1f10cb565ac81aae970e647539c728355f35f6b571702dce151b00207eba"
+    },
+    "professor-profile-sequence.puml": {
+      "source_sha256": "6d920f3d41c3eb52b1d53478aa0d687334c193a3dd2fd9153662a5848ca5bd9d",
+      "svg_sha256": "e0e4dd9ad4bf41a6640615f5adea3d32c647d89b7362c781f4a79e6ac40d1b39"
+    }
+  }
+}

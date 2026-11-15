@@ -1,0 +1,60 @@
+@startuml
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam sequenceMessageAlign center
+title Issue #4 — proposed persistent professor-profile edit (not implemented)
+actor Professor
+boundary "Professor profile UI\n(proposed)" as UI
+control "Profile data-access adapter\n(proposed)" as Adapter
+control "Authenticated profile service\n(proposed)" as Service
+database "Team-selected database\n(not configured)" as DB
+
+note over Professor,DB
+  Future design after model approval and database choice.
+  Current branch has no professor profile UI or backend.
+  Photo upload and post editing are separate flows.
+end note
+Professor -> UI: Open profile
+UI -> Adapter: getMyProfile()
+Adapter -> Service: Read profile using authenticated session
+Service -> Service: Verify session + professor role
+alt Invalid session or role
+  Service --> Adapter: Unauthorized / forbidden
+  Adapter --> UI: Show sign-in / access error
+else Authorized
+  Service -> DB: Read ProfessorProfile by session userId
+  DB --> Service: Profile + version, or not found
+  Service --> Adapter: Profile DTO or missing-profile response
+  Adapter --> UI: Display profile or create-profile prompt
+end
+
+Professor -> UI: Edit fields and select Save
+UI -> UI: Trim inputs; validate required name and formats
+alt Invalid input
+  UI --> Professor: Show field errors; preserve edits
+else Valid input
+  UI -> Adapter: updateMyProfile(fields, expectedVersion)
+  Adapter -> Service: Update profile using session + expectedVersion
+  Service -> Service: Recheck session, role, owner; validate allowlisted fields
+  alt Unauthorized or invalid fields
+    Service --> Adapter: Forbidden / validation error; no write
+    Adapter --> UI: Preserve edits; show error
+  else Authorized and valid
+    Service -> DB: Atomic conditional update\nWHERE userId = session.userId AND version = expectedVersion\nSET fields, version = version + 1, updatedAt = server time
+    alt Version changed or profile deleted
+      DB --> Service: No row/document matched
+      Service --> Adapter: Conflict / missing profile
+      Adapter --> UI: Preserve edits; offer reload
+    else Storage failure
+      DB --> Service: Update aborted; previous profile intact
+      Service --> Adapter: Retryable error
+      Adapter --> UI: Preserve edits; show retry action
+    else Update committed
+      DB --> Service: Saved ProfessorProfile + new version
+      Service --> Adapter: Saved profile DTO
+      Adapter --> UI: Render confirmed values and success notice
+      UI --> Professor: Changes saved
+    end
+  end
+end
+@enduml

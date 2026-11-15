@@ -23,3 +23,12 @@ points for a future authenticated backend.
 The student profile follows the provided Figma frame (14:114), with local
 Figma exports in `assets/`. Editing controls and file feedback extend the
 reference. The existing login flow is preserved.
+
+## Sprint 2: professor profile proposal
+
+The professor-profile analysis and proposed data model are documented in
+[docs/sprint2/professor-profile-proposal.md](docs/sprint2/professor-profile-proposal.md).
+[PlantUML sources and rendered diagrams](docs/uml/README.md) cover the proposed
+profile model and persistent editing flow for GitHub issue #4 only. These are
+proposals awaiting team approval and database selection; no professor backend,
+ORM, or database configuration has been implemented.
