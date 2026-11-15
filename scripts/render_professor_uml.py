@@ -39,7 +39,7 @@ def main():
             raise ValueError(f'{rendered.name} contains a renderer error')
         artifacts[name] = {'source_sha256': digest(source),
                            'svg_sha256': digest(rendered)}
-    (UML / 'render-manifest.json').write_text(
+    (UML / 'professor-render-manifest.json').write_text(
         json.dumps({'plantuml_version': VERSION, 'jar_sha256': JAR_SHA256,
                     'artifacts': artifacts}, indent=2) + '\n')
     print('Rendered both professor-profile diagrams and recorded checksums.')

@@ -1,9 +1,12 @@
 # Sprint 2: professor profile proposal
 
-**Status: awaiting team approval and database selection.** Scope is GitHub
-[issue #4, Professor Profile](https://github.com/npant1/3155implementation/issues/4).
-No ORM, schema, migration, database configuration, new runtime feature, or
-production database change is included in this proposal.
+**Historical proposal.** The professor-profile feature is now implemented.
+See [current behavior and setup](../PROFESSOR_PROFILE.md) and the updated
+[class](../uml/professor-profile-class.svg) and
+[sequence](../uml/professor-profile-sequence.svg) diagrams. The analysis below
+records the original pre-implementation state; the shared schema's `userId`
+primary key replaced the proposed separate profile UUID.
+
 
 ## Evidence and current state
 

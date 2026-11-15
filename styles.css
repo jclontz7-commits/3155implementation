@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
 
 :root {
   font-family: "DM Sans", sans-serif;
@@ -656,3 +656,41 @@ code {
   .profile-about { margin-left: 32px; margin-right: 32px; }
   .applied-listings { padding: 20px 16px; }
 }
+
+.professor-primary { color: #fff; background: #2e5d34; }
+.professor-entry .eyebrow { color: #2e5d34; }
+.professor-entry h1 { font-size: clamp(30px, 5vw, 40px); }
+.professor-entry .button { margin-bottom: 14px; }
+.professor-demo-note { margin: 20px 24px 0; color: #454b45; font-size: 12px; line-height: 1.5; text-align: center; }
+.professor-entry .professor-demo-note { font-size: 12px; margin-bottom: 20px; }
+.professor-loading { justify-self: center; }
+.professor-status { color: #9a1c24; margin: 12px 0; font-size: 14px; }
+.professor-screen .profile-main h1 { margin-top: 49px; margin-bottom: 50px; }
+.professor-identity { display: flex; align-items: flex-start; gap: 14px; margin: 0 28px; }
+.professor-identity > div { flex: 1; min-width: 0; margin-top: 12px; }
+.professor-identity p { font-size: 16px; line-height: 1.35; margin: 0 0 8px; overflow-wrap: anywhere; }
+.professor-picture { display: grid; gap: 7px; margin: 14px 28px 56px; }
+.professor-picture label { justify-self: start; color: #224c29; text-decoration: underline; cursor: pointer; font-size: 14px; }
+.professor-picture span { color: #454b45; font-size: 11px; }
+.professor-picture:focus-within label { outline: 3px solid #2e5d34; outline-offset: 4px; }
+.professor-about { margin: 0 20px 42px; }
+.professor-about h2, .professor-contact h2 { font: 400 16px/1.4 Inter, Arial, sans-serif; letter-spacing: 0; margin-bottom: 22px; }
+.professor-about h2 { margin-left: 28px; }
+.professor-about h3 { font: 600 14px/1.4 Inter, Arial, sans-serif; margin: 20px 0 6px; }
+.professor-about p, .professor-contact dd { font-size: 16px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
+.professor-contact { margin: 0 36px 28px; }
+.professor-contact h2 { text-align: center; }
+.professor-contact dl { margin: 0 auto; width: fit-content; max-width: 100%; }
+.professor-contact dt { font-size: 14px; margin-top: 16px; }
+.professor-contact dd { margin: 4px 0 0; }
+.professor-contact a { color: #174f8b; }
+.professor-form p { line-height: 1.5; }
+.professor-form input[aria-invalid="true"], .professor-form textarea[aria-invalid="true"] { border: 2px solid #a21627; }
+.professor-nav { position: absolute; top: 72px; left: 22px; right: 22px; z-index: 5; padding: 8px; border: 1px solid #888; border-radius: 8px; background: #fff; box-shadow: 0 6px 18px #0003; }
+.professor-nav a, .professor-nav button { display: block; border: 0; width: 100%; padding: 12px; color: #111; background: #fff; font: inherit; text-align: left; cursor: pointer; text-decoration: none; }
+.professor-nav a:hover, .professor-nav button:hover { background: #edf2ed; }
+.professor-posts li { display: block; }
+.professor-posts details { width: 100%; }
+.professor-posts summary { font-size: 14px; font-weight: 600; cursor: pointer; overflow-wrap: anywhere; }
+.professor-posts details p { margin: 12px 0 0; font-size: 13px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+.professor-empty { margin: 16px 0 0; font-size: 14px; line-height: 1.5; }

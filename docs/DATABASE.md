@@ -1,10 +1,11 @@
 # Shared PostgreSQL development database
 
-This branch, `sprint2-database`, supplies the **whole project's** persistence
+The `sprint2-database` branch supplies the **whole project's** persistence
 foundation. It was created from `npant1/3155implementation` main (`7ebc492`).
-It is independent of `professor-profile`: no existing HTML, CSS, browser
-JavaScript, or professor UI is replaced or connected here. The existing
-research-listings page still displays its original hardcoded sample data.
+Its database foundation is independent of the professor UI. On the
+`professor-profile` branch, this foundation is merged and the Node API/interface
+are added on top; see [PROFESSOR_PROFILE.md](PROFESSOR_PROFILE.md). The statements
+below about the standalone foundation describe `sprint2-database`.
 
 ## Stack and scope
 

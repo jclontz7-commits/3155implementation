@@ -11,6 +11,8 @@ const routes = {
   "#/sign-up": renderSignUp,
   "#/student-portal": renderStudentPortal,
   "#/student-profile": renderStudentProfile,
+  "#/professor-portal": renderProfessorPortal,
+  "#/professor-profile": renderProfessorProfile,
 };
 
 function page(content, activeRoute = "") {
@@ -83,11 +85,7 @@ function renderStudentLogin() {
 }
 
 function renderProfessorLogin() {
-  renderUnavailable(
-    "Professor sign in",
-    "Professor sign in is a separate flow and isn't included in this student login demo.",
-    "#/professor-login",
-  );
+  renderProfessorSignIn();
 }
 
 function renderSignUp() {

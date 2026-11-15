@@ -12,3 +12,5 @@ coverage/
 *service-account*.json
 .DS_Store
 __pycache__/
+
+.worktrees/

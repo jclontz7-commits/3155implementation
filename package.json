@@ -13,23 +13,27 @@
     "db:seed": "tsx scripts/seed.ts",
     "db:verify": "tsx scripts/verify.ts",
     "db:status": "prisma migrate status",
-    "lint": "eslint src scripts tests prisma.config.ts",
+    "lint": "eslint src scripts tests prisma.config.ts && node --check professor.js",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
-    "test:db": "tsx scripts/test-db.ts"
+    "test:db": "tsx scripts/test-db.ts",
+    "start": "tsx src/server.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.0.0",
     "@prisma/client": "^7.0.0",
     "dotenv": "^17.0.0",
     "pg": "^8.0.0",
+    "sharp": "^0.35.5",
     "zod": "^4.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/jsdom": "^30.0.0",
     "@types/node": "^24.0.0",
     "@types/pg": "^8.0.0",
     "eslint": "^10.15.0",
+    "jsdom": "^31.0.1",
     "prisma": "^7.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0",

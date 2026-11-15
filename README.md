@@ -29,6 +29,20 @@ reference. The existing login flow is preserved.
 The professor-profile analysis and proposed data model are documented in
 [docs/sprint2/professor-profile-proposal.md](docs/sprint2/professor-profile-proposal.md).
 [PlantUML sources and rendered diagrams](docs/uml/README.md) cover the proposed
-profile model and persistent editing flow for GitHub issue #4 only. These are
-proposals awaiting team approval and database selection; no professor backend,
-ORM, or database configuration has been implemented.
+profile model and persistent editing flow for GitHub issue #4 only. The original proposal is retained as historical analysis; the professor profile
+and PostgreSQL integration are now implemented as described below.
+
+## Professor profile with PostgreSQL
+
+The `professor-profile` branch now includes the shared database foundation and
+an implemented professor profile. After database setup and seeding, run
+`npm start` and open <http://127.0.0.1:8000/#/professor-login>. Select
+**Continue as sample professor**, then **My professor profile**.
+
+View and edit profile details, change the photo, and expand published research
+posts. Changes persist in PostgreSQL. The sample session is local development
+only; real authentication is not implemented. Existing student demo flows
+remain available. Use the Node server for professor features.
+
+See [feature setup, behavior and tests](docs/PROFESSOR_PROFILE.md),
+[database instructions](docs/DATABASE.md), and [UML diagrams](docs/uml/README.md).

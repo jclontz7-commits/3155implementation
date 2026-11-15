@@ -10,7 +10,7 @@ UML = Path(__file__).resolve().parents[1] / 'docs' / 'uml'
 
 class ProfessorDiagramTests(unittest.TestCase):
     def test_rendered_diagrams_match_committed_source(self):
-        manifest = json.loads((UML / 'render-manifest.json').read_text())
+        manifest = json.loads((UML / 'professor-render-manifest.json').read_text())
         expected = {'professor-profile-class.puml', 'professor-profile-sequence.puml'}
         self.assertEqual(set(manifest['artifacts']), expected)
         for name, hashes in manifest['artifacts'].items():
@@ -27,7 +27,7 @@ class ProfessorDiagramTests(unittest.TestCase):
                 self.assertGreater(float(root.attrib['height'].removesuffix('px')), 0)
                 text = ' '.join(root.itertext())
                 self.assertNotIn('Syntax Error', text)
-                self.assertIn('proposed', text.lower())
+                self.assertIn('implemented', text.lower())
                 self.assertIn('ProfessorProfile', text)
 
 
