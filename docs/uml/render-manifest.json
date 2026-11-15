@@ -1,0 +1,14 @@
+{
+  "plantuml_version": "1.2026.10",
+  "jar_sha256": "e9bc9e6b2eb715e8c0c929f3dcb5fc1923be13f37599b09c293c66d354e88686",
+  "artifacts": {
+    "shared-data-class.puml": {
+      "source_sha256": "1cfaed262f7331b8034e3c9fdfe4d61968687b0966b9c0f47688d4d53e728ba4",
+      "svg_sha256": "6ad65c23a25cc9c91de2e0e69718f7c4ddfbcc14871cde6c91877a20d11d4be9"
+    },
+    "application-sequence.puml": {
+      "source_sha256": "622d8f3e2ac2429ca6f9498c25fac47e04415646d96d61681bf482a2934a7358",
+      "svg_sha256": "e06d017b54210c94f9a6f8c17a8fd6abf0861e81efe1e9673743647b3e6240bc"
+    }
+  }
+}

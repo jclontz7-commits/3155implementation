@@ -209,3 +209,13 @@ python3 -m http.server 8000
 Open <http://localhost:8000> in a browser. Listings are prototype data and are not connected to a research API.
 
 [View the Research Listings Figma frame](https://www.figma.com/proto/d0P8tCCwxmCInTN8C4LEjg/Main?node-id=6-5&t=RjfB5uCHilmrC0Kn-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A2)
+
+## Shared PostgreSQL database (Sprint 2)
+
+The independent `sprint2-database` branch adds the whole project's PostgreSQL
+schema, Prisma data-access layer, migrations, synthetic development data,
+automated tests, and UML. It leaves the existing frontend unchanged.
+
+See [database setup and team instructions](docs/DATABASE.md) and
+[rendered UML diagrams](docs/uml/README.md). All supplied database tooling is
+restricted to local development/test databases; no production database is used.
