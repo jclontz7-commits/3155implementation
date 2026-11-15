@@ -31,17 +31,6 @@ export function createDataAccess(db: PrismaClient) {
         return tx.professorProfile.findUniqueOrThrow({ where: { userId: actorId }, include: { photo: true } });
       });
     },
-    async replaceProfessorPhoto(actorId: string, input: unknown, expectedVersion: number) {
-      await actor(actorId, 'PROFESSOR');
-      const file = fileFields.parse(input);
-      if (file.purpose !== 'PHOTO' || !Number.isInteger(expectedVersion) || expectedVersion < 1) throw new DataAccessError('INVALID', 'Invalid photo or profile version.');
-      return db.$transaction(async tx => {
-        const asset = await tx.fileAsset.create({ data: { ...file, ownerId: actorId } });
-        const result = await tx.professorProfile.updateMany({ where: { userId: actorId, version: expectedVersion }, data: { photoId: asset.id, version: { increment: 1 } } });
-        if (!result.count) throw new DataAccessError('CONFLICT', 'The profile changed. Reload before replacing the photo.');
-        return tx.professorProfile.findUniqueOrThrow({ where: { userId: actorId }, include: { photo: true } });
-      });
-    },
     async getStudentProfile(actorId: string) {
       await actor(actorId, 'STUDENT');
       return db.studentProfile.findUnique({ where: { userId: actorId }, include: { photo: true, resume: true } });

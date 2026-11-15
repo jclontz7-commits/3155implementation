@@ -6,14 +6,14 @@ import { JSDOM } from 'jsdom';
 import { createDatabase } from '../src/db.js';
 import { createDataAccess } from '../src/data/index.js';
 import { createMessagingAccess } from '../src/data/messaging.js';
-import { createProfessorServer } from '../src/professor-server.js';
+import { createMessagingServer } from '../src/messaging-server.js';
 import { developmentDatabaseUrl } from '../src/config.js';
 
 developmentDatabaseUrl(process.env.DATABASE_URL, true);
 const db = createDatabase(), data = createDataAccess(db), messages = createMessagingAccess(db);
 const studentId = randomUUID(), professorId = randomUUID(), outsiderId = randomUUID(), secondProfessorId = randomUUID(), areaId = randomUUID();
 const tag = randomUUID().slice(0, 8);
-let server: ReturnType<typeof createProfessorServer>, base: string, conversationId: string;
+let server: ReturnType<typeof createMessagingServer>, base: string, conversationId: string;
 function client() {
   let cookie = '';
   return async (path: string, options: RequestInit = {}) => {
@@ -41,7 +41,7 @@ before(async () => {
   conversationId = (await data.startConversation(studentId, professorId)).id;
   const start = Date.now() - 86400000;
   await db.message.createMany({ data: Array.from({ length: 60 }, (_, index) => ({ conversationId, senderId: index % 2 ? studentId : professorId, body: `History ${index}`, sentAt: new Date(start + index * 1000) })) });
-  server = createProfessorServer(db, { professorId, studentId });
+  server = createMessagingServer(db, { professorId, studentId });
   await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
   const address = server.address(); assert.ok(address && typeof address === 'object'); base = `http://127.0.0.1:${address.port}`;
 });
@@ -60,6 +60,11 @@ after(async () => {
 });
 test('messaging requires a session and same origin; sample identity cannot be spoofed', async () => {
   assert.equal((await student('/api/messaging/me')).status, 401);
+  const landing = await student('/');
+  const html = await landing.text();
+  assert.match(html, /Messages \| Campus Research/);
+  assert.doesNotMatch(html, /src="(?:profile|professor)\.js/);
+  for (const path of ['/profile.js', '/professor.js', '/api/professor/profile']) assert.equal((await student(path)).status, 404);
   assert.equal((await student('/api/messaging/dev-session', { method: 'POST', headers: { ...jsonHeaders, Origin: 'https://attacker.test' }, body: '{"role":"STUDENT"}' })).status, 403);
   assert.equal((await student('/api/messaging/dev-session', { method: 'POST', headers: jsonHeaders, body: JSON.stringify({ role: 'STUDENT', actorId: outsiderId }) })).status, 422);
   const response = await signIn(student, 'STUDENT');

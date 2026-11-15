@@ -15,7 +15,7 @@ async function renderMessaging() {
   clearInterval(messagingTimer);
   const epoch = ++messagingEpoch;
   const current = () => epoch === messagingEpoch && location.hash === '#/messages';
-  app.innerHTML = '<main id="main-content" class="profile-loading" role="status">Loading messages…</main>';
+  app.innerHTML = '<main id="main-content" class="messaging-loading" role="status">Loading messages…</main>';
   let user;
   try { ({ user } = await messagingApi('me')); }
   catch (error) {
@@ -23,7 +23,7 @@ async function renderMessaging() {
     app.innerHTML = `<main id="main-content" class="msg-entry"><p class="eyebrow">CAMPUS RESEARCH</p><h1>Messages</h1><p>Connect students and professors around research opportunities.</p>
       <p class="msg-demo">Local development demo. Choose a synthetic sample account; production authentication is not configured.</p>
       <button data-message-role="STUDENT">Continue as sample student</button><button data-message-role="PROFESSOR">Continue as sample professor</button>
-      <p id="msg-entry-status" role="status">${error.status === 401 ? '' : messageEscape(error.message)}</p><a href="#/student-login">Back to portal sign-in</a></main>`;
+      <p id="msg-entry-status" role="status">${error.status === 401 ? '' : messageEscape(error.message)}</p></main>`;
     document.querySelectorAll('[data-message-role]').forEach(button => { button.onclick = async () => {
       document.querySelectorAll('[data-message-role]').forEach(v => { v.disabled = true; });
       try { await messagingApi('dev-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ role: button.dataset.messageRole }) }); if (current()) void renderMessaging(); }
@@ -36,7 +36,7 @@ async function renderMessaging() {
   const state = { tab: 'inbox', query: '', conversations: [], people: [], selected: null, messages: [], inboxMore: false, peopleMore: false, older: false, drafts: new Map(), pending: new Map(), sending: new Set(), listSerial: 0, chatSerial: 0, chatLoading: false, polling: false };
   const noun = user.role === 'STUDENT' ? 'Professors' : 'Students';
   const initials = name => name.split(/\s+/).filter(Boolean).slice(0, 2).map(p => p[0]).join('').toUpperCase();
-  app.innerHTML = `<div class="messages-app"><header class="msg-header"><div><h1>Messages</h1><a href="${user.role === 'STUDENT' ? '#/student-portal' : '#/professor-portal'}">Back</a></div><p>Connect with research ${noun.toLowerCase()}</p></header>
+  app.innerHTML = `<div class="messages-app"><header class="msg-header"><div><h1>Messages</h1><a href="#/messages" id="msg-back">Back</a></div><p>Connect with research ${noun.toLowerCase()}</p></header>
     <main id="main-content" class="msg-main"><form class="msg-search" role="search"><span class="msg-search-icon" aria-hidden="true"><img src="assets/messaging/f783a.svg" alt=""><img src="assets/messaging/850ca.svg" alt=""></span><label class="visually-hidden" for="msg-query">Search ${noun.toLowerCase()} or research topics</label><input id="msg-query" maxlength="100" type="search" placeholder="Search ${noun.toLowerCase()} or research topics" autocomplete="off"></form>
     <nav class="msg-tabs" aria-label="Message views"><button id="msg-inbox-tab" aria-pressed="true">Inbox</button><button id="msg-people-tab" aria-pressed="false">Find ${noun}</button></nav>
     <div class="msg-list-heading"><h2 id="msg-list-title">Conversations</h2><span id="msg-list-count"></span></div><div id="msg-list" aria-labelledby="msg-list-title"></div>
@@ -197,6 +197,7 @@ async function renderMessaging() {
     } else listMarkup();
   };
   function tab(value) { clearTimeout(searchTimer); state.tab = value; state.listSerial += 1; listMarkup(); void loadList(); }
+  document.querySelector('#msg-back').onclick = event => { event.preventDefault(); tab('inbox'); document.querySelector('#msg-list-title').scrollIntoView({ behavior: 'smooth' }); };
   document.querySelector('#msg-inbox-tab').onclick = () => tab('inbox');
   document.querySelector('#msg-people-tab').onclick = () => tab('people');
   document.querySelector('#msg-new').onclick = () => { tab('people'); document.querySelector('#msg-query').focus(); };

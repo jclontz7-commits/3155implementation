@@ -1,3 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+:root { font-family: Inter, Arial, sans-serif; color: #26392b; background: #f6f9f7; }
+* { box-sizing: border-box; }
+body { min-width: 320px; min-height: 100vh; margin: 0; }
+button, input, textarea { font: inherit; }
+a { color: inherit; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip-link { position: fixed; top: -60px; left: 12px; z-index: 20; padding: 12px; background: white; }
+.skip-link:focus { top: 12px; }
+.messaging-loading { min-height: 100vh; display: grid; place-content: center; padding: 24px; text-align: center; }
+.msg-entry .eyebrow { color: #295c36; font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 .messages-app { width: min(100%, 402px); min-height: 874px; margin: 0 auto; background: #f6f9f7 url('assets/messaging/f11f2.svg') top / 100% 100% no-repeat; color: #26392b; font: 13px/1.45 Inter, Arial, sans-serif; }
 .messages-app h1, .messages-app h2, .messages-app h3 { font-family: inherit; letter-spacing: 0; }
 .messages-app button, .messages-app input, .messages-app textarea { font: inherit; }

@@ -1,9 +1,9 @@
 # Student–professor messaging (issue #8)
 
-Branch: **student-professor-messaging**. This independent feature branch is
-based on the existing `professor-profile` portal and shared PostgreSQL
-foundation. It leaves those source branches intact. It implements the inbox,
-people search, chat page, sending, and persisted history for
+Branch: **student-professor-messaging**. This is a standalone messaging page
+with its API and shared PostgreSQL support. Profile pages, profile editing,
+and the full portal are not included on this branch. It implements the inbox,
+people search, chat page, sending and persistent history for
 [issue #8](https://github.com/npant1/3155implementation/issues/8), following
 [Figma frame 189:288](https://www.figma.com/proto/d0P8tCCwxmCInTN8C4LEjg/Main?node-id=189-288).
 
@@ -39,16 +39,15 @@ start this checkout with `PORT=8001 npm start` and use that port instead.
    browser cookies share the same messaging identity. Stale views are rejected
    if another tab switches identities, preventing sends as the wrong visible account.
 
-Messages links are available from both student/professor portals and their
-profile menus. Back returns to the relevant portal, which retains its existing
-sign-in requirements. The original browser-only student-profile fixture is
-separate from the messaging sample account; its data is not overwritten.
+The root URL opens directly to the messaging page. The header's Back control
+returns to the Inbox section. A future host portal can link to `#/messages`;
+there are no profile or portal routes in this standalone feature.
 
 ## Acceptance criteria
 
 | Requirement | Implemented behavior |
 | --- | --- |
-| Easy navigation | Portal/profile links, Back, Inbox, Find People, New Message and account switch controls |
+| Easy navigation | Direct messaging entry, Back to Inbox, Find People, New Message and account switch controls |
 | Find a professor or student | Server-side opposite-role directory; case-insensitive name, department/major and research search; 30-row pages; no-match state |
 | Message page/functionality | Role-aware inbox and current-chat panel; both roles send; strict validation; duplicate-safe retry |
 | View history | Participant-only chronological messages, latest 50 initially, older-page controls, timestamps, persistence and periodic refresh |
@@ -130,7 +129,7 @@ search/open/send/history interactions. The DOM test simulates a committed
 send whose acknowledgement was lost, confirms a retry creates exactly one
 message, verifies HTML is rendered safely, checks reply refresh, and checks
 that the old composer is disabled during a delayed conversation switch.
-Shared data and professor-profile regression tests also run.
+Shared database regression tests also run; profile UI tests are outside this branch.
 
 The schema-derived [class diagram](uml/shared-data-class.svg) includes the
 new fields/index relationships. The implemented messaging flow appears in

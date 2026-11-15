@@ -1,7 +1,7 @@
-name: Shared database checks
+name: Messaging checks
 on:
   push:
-    branches: [main, sprint2-database, professor-profile, student-professor-messaging]
+    branches: [main, student-professor-messaging]
   pull_request:
 permissions:
   contents: read

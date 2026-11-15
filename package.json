@@ -13,7 +13,7 @@
     "db:seed": "tsx scripts/seed.ts",
     "db:verify": "tsx scripts/verify.ts",
     "db:status": "prisma migrate status",
-    "lint": "eslint src scripts tests prisma.config.ts && node --check professor.js && node --check messaging.js",
+    "lint": "eslint src scripts tests prisma.config.ts && node --check messaging.js && node --check app.js",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
     "test:db": "tsx scripts/test-db.ts",
@@ -24,7 +24,6 @@
     "@prisma/client": "^7.0.0",
     "dotenv": "^17.0.0",
     "pg": "^8.0.0",
-    "sharp": "^0.35.5",
     "zod": "^4.0.0"
   },
   "devDependencies": {

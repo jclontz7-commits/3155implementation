@@ -1,59 +1,48 @@
-# Campus Portal
+# Student Messaging Page
 
-A buildless HTML, CSS, and JavaScript student portal.
+Standalone messaging feature for students and professors to discuss research
+opportunities. This branch contains the messaging page and its supporting
+API/database code. Student/professor profile pages and profile-editing APIs
+are kept on their separate feature branches.
 
-Run `python3 -m http.server 8000` from this directory and open
-`http://localhost:8000`. Sign in with **student / student123**, select
-**View my profile**, then use **Edit profile** or **Upload Resume**.
-The profile is also available at `#/student-profile` after sign-in.
+## Features
 
-Students can edit their name, major, concentration, year, introduction, and
-picture. Save commits edits; Cancel discards them. Profile pictures accept
-PNG, JPEG, and WebP up to 2 MB. Resumes accept PDF, DOC, and DOCX up to 5 MB,
-with download, replace, and remove controls. Files must be nonempty.
+- Find professors or students by name, research topic, department or major.
+- Open or start a conversation and send messages in either direction.
+- View saved conversation history, including older messages.
+- Refresh incoming replies and safely retry a failed send.
 
-This is a local demo: profile fields and file blobs persist in IndexedDB on
-the current browser and origin. Signing out retains the profile for the next
-demo session; clearing site data removes it. There is no server upload,
-production authentication, or application API. Applied listings and the
-initial Emily Evans profile are sample records from the Figma reference.
-`readProfile` and `saveProfile` in `profile.js` are the storage integration
-points for a future authenticated backend.
+[Figma messaging design](https://www.figma.com/proto/d0P8tCCwxmCInTN8C4LEjg/Main?node-id=189-288)
 
-The student profile follows the provided Figma frame (14:114), with local
-Figma exports in `assets/`. Editing controls and file feedback extend the
-reference. The existing login flow is preserved.
+## Run locally
 
-## Sprint 2: professor profile proposal
+Requires Node 24 and a local PostgreSQL development database. Follow
+[database setup](docs/DATABASE.md) if you have not configured one yet.
 
-The professor-profile analysis and proposed data model are documented in
-[docs/sprint2/professor-profile-proposal.md](docs/sprint2/professor-profile-proposal.md).
-[PlantUML sources and rendered diagrams](docs/uml/README.md) cover the proposed
-profile model and persistent editing flow for GitHub issue #4 only. The original proposal is retained as historical analysis; the professor profile
-and PostgreSQL integration are now implemented as described below.
+```bash
+npm ci
+npm run db:generate
+npm run db:init
+npm run db:seed
+npm start
+```
 
-## Professor profile with PostgreSQL
+Open **http://127.0.0.1:8000/**. The app opens directly to Messages. Choose the
+sample student or professor to demonstrate both sides. These are local demo
+sessions; production authentication is not configured.
 
-The `professor-profile` branch now includes the shared database foundation and
-an implemented professor profile. After database setup and seeding, run
-`npm start` and open <http://127.0.0.1:8000/#/professor-login>. Select
-**Continue as sample professor**, then **My professor profile**.
+If port 8000 is occupied, run `PORT=8001 npm start` and open
+**http://127.0.0.1:8001/** instead.
 
-View and edit profile details, change the photo, and expand published research
-posts. Changes persist in PostgreSQL. The sample session is local development
-only; real authentication is not implemented. Existing student demo flows
-remain available. Use the Node server for professor features.
+## Test
 
-See [feature setup, behavior and tests](docs/PROFESSOR_PROFILE.md),
-[database instructions](docs/DATABASE.md), and [UML diagrams](docs/uml/README.md).
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run test:db
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p 'test_uml.py' -v
+```
 
-## Student–professor messaging
-
-The independent `student-professor-messaging` branch implements the messaging
-story on top of the portal and shared database foundation. Run `npm ci`,
-`npm run db:generate`, `npm run db:init`, `npm run db:seed`, and `npm start`.
-Open <http://127.0.0.1:8000/#/messages> to choose the sample student or professor,
-find a peer, send messages, and view persistent history. Use `PORT=8001 npm start`
-if the professor-profile demo is already using port 8000.
-
-[Messaging setup, acceptance criteria, and tests](docs/MESSAGING.md).
+[Messaging behavior and acceptance criteria](docs/MESSAGING.md) ·
+[Database setup](docs/DATABASE.md) · [UML diagrams](docs/uml/README.md)

@@ -1,11 +1,9 @@
 # Shared PostgreSQL development database
 
 The `sprint2-database` branch supplies the **whole project's** persistence
-foundation. It was created from `npant1/3155implementation` main (`7ebc492`).
-Its database foundation is independent of the professor UI. On the
-`professor-profile` branch, this foundation is merged and the Node API/interface
-are added on top; see [PROFESSOR_PROFILE.md](PROFESSOR_PROFILE.md). The statements
-below about the standalone foundation describe `sprint2-database`.
+foundation. The standalone messaging page uses this shared foundation for user identities,
+contacts and conversations. This branch includes only messaging UI/API code;
+profile editors and other application pages remain separate features.
 
 ## Stack and scope
 
@@ -13,8 +11,8 @@ below about the standalone foundation describe `sprint2-database`.
 - Node.js 24 LTS, TypeScript, Zod validation, ESLint, Node's test runner.
 - Prisma models, committed SQL migrations, a server-only data-access module,
   repeatable synthetic seed data, integration tests, UML, and a CI workflow.
-- No live authentication provider, HTTP API, frontend integration, file-byte
-  storage, production deployment, or production credentials are included.
+- No production authentication, file-byte storage or production credentials
+  are included. The messaging API and page are documented in [MESSAGING.md](MESSAGING.md).
 
 The application reference is [the team repository](https://github.com/npant1/3155implementation).
 The existing stack was static HTML/CSS/JavaScript; Node/TypeScript is added
@@ -102,10 +100,9 @@ configuration change; do not weaken the guards to reach a production server.
 | Conversation | Unique student/professor pair | [#8 messages](https://github.com/npant1/3155implementation/issues/8), #14/#15 |
 | Message | Conversation, participant sender, immutable nonblank body and timestamp | #8 message history |
 
-The previous professor-profile proposal used a separate profile UUID. In this
-shared schema, each profile uses its `userId` as its primary key: there is at
-most one profile of the corresponding role per account, without an extra
-identity to synchronize. This is documented in the schema-derived class UML.
+Each shared profile uses its `userId` as primary key, giving contacts one
+stable identity per account. Messaging reads those profiles; it does not
+provide profile-editing pages.
 No real faculty/student information from Figma is copied into development data.
 
 ## Constraints and invariants
@@ -226,9 +223,9 @@ silently extend it. No fabricated file metadata points to nonexistent uploads.
 
 `npm run db:verify` connects through the actual Prisma adapter, performs a
 transactional create/read/delete of its own temporary records, and runs the
-same published-list query available to future application handlers. This
-verifies application-side connectivity; the current static frontend remains
-unconnected on purpose.
+same published-list query available to future application handlers. This verifies database-client connectivity. The messaging API and page use
+that same database connection; HTTP/DOM integration is covered by the
+messaging tests.
 
 ```bash
 npm run db:validate
