@@ -50,6 +50,7 @@ def generate():
               'Account authentication and object-storage bytes are external.',
               'OpportunityResearchArea has a composite primary key.',
               'Application and Conversation have composite unique pairs.',
+              'Message has a unique sender/clientMessageId retry key.',
               'end note', '@enduml', '']
     return '\n'.join(lines)
 

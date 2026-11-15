@@ -51,6 +51,7 @@ async function renderProfessorPortal() {
     page(`<section class="portal-card professor-entry"><p class="eyebrow">PROFESSOR PORTAL</p>
       <h1>Welcome, ${professorEscape(profile.displayName)}.</h1><p>You have ${posts.length} published research ${posts.length === 1 ? 'opportunity' : 'opportunities'}.</p>
       <a class="button professor-primary" href="#/professor-profile">My professor profile</a>
+      <a class="button button-secondary" href="#/messages">Messages</a>
       <button class="button button-secondary" id="professor-home-logout">Log out</button>
       <p class="professor-demo-note">Local sample-professor session</p><p id="home-status" role="status"></p></section>`, '#/professor-login');
     document.querySelector('#professor-home-logout').onclick = async () => {
@@ -108,7 +109,7 @@ async function renderProfessorProfile() {
     if (!current()) return;
     app.innerHTML = `<div class="student-profile professor-screen">
       <header class="profile-header"><button class="menu-toggle" id="professor-menu" aria-label="Open professor navigation" aria-expanded="false" aria-controls="professor-nav"><img src="assets/professor-menu.svg" alt=""></button>
-      <nav id="professor-nav" class="professor-nav" aria-label="Professor navigation" hidden><a href="#/professor-portal">Professor portal</a><a href="#/professor-profile" aria-current="page">My profile</a><button id="professor-posts-nav">Published opportunities</button><button id="professor-logout">Log out</button></nav></header>
+      <nav id="professor-nav" class="professor-nav" aria-label="Professor navigation" hidden><a href="#/professor-portal">Professor portal</a><a href="#/professor-profile" aria-current="page">My profile</a><a href="#/messages">Messages</a><button id="professor-posts-nav">Published opportunities</button><button id="professor-logout">Log out</button></nav></header>
       <main id="main-content" class="profile-main"><div class="profile-toolbar"><a class="profile-back" href="#/professor-portal">Back</a>${editing ? '' : '<button class="profile-edit" id="edit-professor">Edit profile</button>'}</div>
       <h1>${professorEscape(profile.displayName)}</h1>
       ${editing ? editor() : `<div class="professor-identity"><img class="profile-photo" src="${professorEscape(profile.photo?.url || 'assets/professor-avatar.png')}" alt="Professor profile picture"><div><p>Degree: ${professorEscape(profile.degree || 'Not added')}</p>${profile.department ? `<p>${professorEscape(profile.department)}</p>` : ''}</div></div>

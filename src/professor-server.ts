@@ -4,28 +4,17 @@ import { readFile, writeFile, mkdir, unlink } from 'node:fs/promises';
 import { resolve, join, basename } from 'node:path';
 import sharp from 'sharp';
 import { ZodError } from 'zod';
+import { HttpError, body, json } from './http-utils.js';
+import { createMessagingRoutes } from './messaging-routes.js';
 import type { PrismaClient } from './generated/prisma/client.js';
 import { createDataAccess, DataAccessError } from './data/index.js';
 
-class HttpError extends Error { constructor(public status: number, message: string) { super(message); } }
-const PUBLIC_FILES = new Set(['index.html', 'styles.css', 'app.js', 'profile.js', 'professor.js',
+const MESSAGING_ASSETS = ['f11f2','ab844','83cf7','f783a','850ca','dc74e','2117f','8f49d','4184f','1d1ef','59873','2e783','01e82','dfdd3','0c220','3abf1','73998','6c756','69b48','c738a'].map(name => `assets/messaging/${name}.svg`);
+const PUBLIC_FILES = new Set([...MESSAGING_ASSETS, 'index.html', 'styles.css', 'app.js', 'profile.js', 'professor.js', 'messaging.js', 'messaging.css',
   'assets/avatar.png', 'assets/menu.svg', 'assets/briefcase.svg', 'assets/resume-button.svg', 'assets/upload.png',
   'assets/professor-avatar.png', 'assets/professor-menu.svg']);
 const MIME: Record<string, string> = { html: 'text/html', css: 'text/css', js: 'text/javascript', png: 'image/png', svg: 'image/svg+xml' };
 
-function body(request: IncomingMessage, limit: number): Promise<Buffer> {
-  return new Promise((accept, reject) => {
-    let size = 0;
-    const chunks: Buffer[] = [];
-    request.on('data', (chunk: Buffer) => { size += chunk.length; if (size <= limit) chunks.push(chunk); });
-    request.on('end', () => size > limit ? reject(new HttpError(413, 'The selected file or request is too large.')) : accept(Buffer.concat(chunks)));
-    request.on('error', reject);
-  });
-}
-function json(response: ServerResponse, status: number, value: unknown) {
-  response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
-  response.end(JSON.stringify(value));
-}
 function profileDto(profile: Awaited<ReturnType<ReturnType<typeof createDataAccess>['getProfessorProfile']>>) {
   if (!profile) throw new HttpError(404, 'Profile not found. Run the development seed first.');
   const { photo, ...fields } = profile;
@@ -33,13 +22,14 @@ function profileDto(profile: Awaited<ReturnType<ReturnType<typeof createDataAcce
 }
 
 /** Local demo only. The single sample identity is chosen by the server, never the browser. */
-export function createProfessorServer(db: PrismaClient, options: { professorId?: string; root?: string; uploads?: string } = {}) {
+export function createProfessorServer(db: PrismaClient, options: { professorId?: string; studentId?: string; root?: string; uploads?: string } = {}) {
   if (process.env.NODE_ENV === 'production') throw new Error('The sample-professor server is development-only.');
   const professorId = options.professorId ?? '11111111-1111-4111-8111-111111111111';
   const root = resolve(options.root ?? process.cwd());
   const uploads = resolve(options.uploads ?? join(root, '.dev/uploads'));
   const sessions = new Map<string, number>();
   const data = createDataAccess(db);
+  const messaging = createMessagingRoutes(db, { professorId, studentId: options.studentId });
   function authenticated(request: IncomingMessage) {
     const token = request.headers.cookie?.split(';').map(v => v.trim()).find(v => v.startsWith('professor_session='))?.slice('professor_session='.length);
     if (!token || (sessions.get(token) ?? 0) <= Date.now()) { if (token) sessions.delete(token); throw new HttpError(401, 'Sign in to view your professor profile.'); }
@@ -57,6 +47,7 @@ export function createProfessorServer(db: PrismaClient, options: { professorId?:
     if (!['GET', 'HEAD'].includes(request.method ?? '')) {
       if (request.headers.origin !== `http://${request.headers.host}`) throw new HttpError(403, 'Request origin is not allowed.');
     }
+    if (await messaging(request, response, path)) return;
     if (path === '/api/dev-professor-session' && request.method === 'POST') {
       if (request.headers['content-type']?.split(';')[0] !== 'application/json') throw new HttpError(415, 'Use JSON.');
       const payload = await body(request, 1024);
@@ -136,7 +127,7 @@ export function createProfessorServer(db: PrismaClient, options: { professorId?:
   const server = createServer((request, response) => {
     handle(request, response).catch(error => {
       if (response.headersSent) { response.end(); return; }
-      if (error instanceof HttpError) json(response, error.status, { message: error.message });
+      if (error instanceof HttpError) json(response, error.status, { message: error.message, ...(error.code ? { code: error.code } : {}) });
       else if (error instanceof DataAccessError) json(response, { FORBIDDEN: 403, NOT_FOUND: 404, CONFLICT: 409, INVALID: 422 }[error.code], { message: error.message });
       else if (error instanceof ZodError) json(response, 422, { message: 'Please check the highlighted fields.', issues: error.issues.map(issue => ({ field: issue.path.join('.'), message: issue.message })) });
       else json(response, 503, { message: 'The profile service is unavailable. Check the database and try again.' });

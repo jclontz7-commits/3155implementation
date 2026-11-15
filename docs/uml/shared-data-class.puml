@@ -88,12 +88,14 @@ class Application {
   +appliedAt: DateTime
 }
 class Conversation {
+  +lastMessageAt: DateTime
   +id: UUID {PK}
   +studentId: UUID {FK}
   +professorId: UUID {FK}
   +createdAt: DateTime
 }
 class Message {
+  +clientMessageId: UUID?
   +id: UUID {PK}
   +conversationId: UUID {FK}
   +senderId: UUID {FK}
@@ -142,5 +144,6 @@ immutable message senders, and profile version increments.
 Account authentication and object-storage bytes are external.
 OpportunityResearchArea has a composite primary key.
 Application and Conversation have composite unique pairs.
+Message has a unique sender/clientMessageId retry key.
 end note
 @enduml

@@ -13,6 +13,7 @@ const routes = {
   "#/student-profile": renderStudentProfile,
   "#/professor-portal": renderProfessorPortal,
   "#/professor-profile": renderProfessorProfile,
+  "#/messages": renderMessaging,
 };
 
 function page(content, activeRoute = "") {
@@ -120,6 +121,7 @@ function renderStudentPortal() {
       <h1>Welcome, student.</h1>
       <p>You’re signed in to the student portal demo.</p>
       <a class="button button-primary" href="#/student-profile">View my profile</a>
+      <a class="button button-secondary" href="#/messages">Messages</a>
       <button class="button button-secondary" id="logout-button" type="button">Log out</button>
     </section>
   `, "#/student-login");

@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 UML = ROOT / 'docs' / 'uml'
 VERSION = '1.2026.10'
 JAR_SHA256 = 'e9bc9e6b2eb715e8c0c929f3dcb5fc1923be13f37599b09c293c66d354e88686'
-SOURCES = ('shared-data-class.puml', 'application-sequence.puml')
+SOURCES = ('shared-data-class.puml', 'application-sequence.puml', 'messaging-sequence.puml')
 
 
 def digest(path):
@@ -42,7 +42,7 @@ def main():
     (UML / 'render-manifest.json').write_text(
         json.dumps({'plantuml_version': VERSION, 'jar_sha256': JAR_SHA256,
                     'artifacts': artifacts}, indent=2) + '\n')
-    print('Rendered both shared database diagrams and recorded checksums.')
+    print('Rendered shared database and messaging diagrams and recorded checksums.')
 
 
 if __name__ == '__main__':

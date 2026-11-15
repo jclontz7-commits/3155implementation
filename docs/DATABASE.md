@@ -211,7 +211,9 @@ accept a reset against shared data, or use production connection strings.
 Commit schema, migration SQL, repository validation, tests, UML and lockfile
 changes together. New team members replay the same history. The four initial
 migrations create tables, add domain rules, correct deferred validation,
-and harden lists/concurrency. No production database was contacted.
+and harden lists/concurrency. The messaging branch adds a fifth, additive migration for inbox activity and
+duplicate-safe message identifiers; see [MESSAGING.md](MESSAGING.md). No
+production database was contacted.
 
 ## Synthetic data and verification
 

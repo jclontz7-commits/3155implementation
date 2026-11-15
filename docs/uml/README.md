@@ -5,6 +5,7 @@
 | Implemented professor-profile model (shared-schema subset) | [PlantUML](professor-profile-class.puml) | [SVG](professor-profile-class.svg) |
 | Implemented professor-profile save flow | [PlantUML](professor-profile-sequence.puml) | [SVG](professor-profile-sequence.svg) |
 | Complete shared database model | [PlantUML](shared-data-class.puml) | [SVG](shared-data-class.svg) |
+| Messaging send/history flow | [PlantUML](messaging-sequence.puml) | [SVG](messaging-sequence.svg) |
 | Shared application submission data-access flow | [PlantUML](application-sequence.puml) | [SVG](application-sequence.svg) |
 
 Use Python 3.9+, Java 21+ and the official

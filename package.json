@@ -13,7 +13,7 @@
     "db:seed": "tsx scripts/seed.ts",
     "db:verify": "tsx scripts/verify.ts",
     "db:status": "prisma migrate status",
-    "lint": "eslint src scripts tests prisma.config.ts && node --check professor.js",
+    "lint": "eslint src scripts tests prisma.config.ts && node --check professor.js && node --check messaging.js",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
     "test:db": "tsx scripts/test-db.ts",

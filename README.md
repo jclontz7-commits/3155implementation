@@ -46,3 +46,14 @@ remain available. Use the Node server for professor features.
 
 See [feature setup, behavior and tests](docs/PROFESSOR_PROFILE.md),
 [database instructions](docs/DATABASE.md), and [UML diagrams](docs/uml/README.md).
+
+## Student–professor messaging
+
+The independent `student-professor-messaging` branch implements the messaging
+story on top of the portal and shared database foundation. Run `npm ci`,
+`npm run db:generate`, `npm run db:init`, `npm run db:seed`, and `npm start`.
+Open <http://127.0.0.1:8000/#/messages> to choose the sample student or professor,
+find a peer, send messages, and view persistent history. Use `PORT=8001 npm start`
+if the professor-profile demo is already using port 8000.
+
+[Messaging setup, acceptance criteria, and tests](docs/MESSAGING.md).

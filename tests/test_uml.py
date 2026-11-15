@@ -20,7 +20,7 @@ class SharedUmlTests(unittest.TestCase):
 
     def test_rendered_artifacts_are_current_and_valid(self):
         manifest = json.loads((UML / 'render-manifest.json').read_text())
-        self.assertEqual(set(manifest['artifacts']), {'shared-data-class.puml', 'application-sequence.puml'})
+        self.assertEqual(set(manifest['artifacts']), {'shared-data-class.puml', 'application-sequence.puml', 'messaging-sequence.puml'})
         for name, hashes in manifest['artifacts'].items():
             with self.subTest(diagram=name):
                 source = UML / name

@@ -79,6 +79,7 @@ async function renderStudentProfile() {
           <nav id="profile-nav" aria-label="Student navigation" hidden>
             <a href="#/student-portal">Student portal</a>
             <a href="#/student-profile" aria-current="page">My profile</a>
+            <a href="#/messages">Messages</a>
             <a href="#applications">Applied listings</a>
             <button id="profile-logout" type="button">Log out</button>
           </nav>
