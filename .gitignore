@@ -1,0 +1,17 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+generated/
+src/generated/
+.env
+.env.*
+!.env.example
+.dev/
+*.log
+*.pem
+*.key
+*service-account*.json
+.DS_Store
+__pycache__/
+.worktrees/
