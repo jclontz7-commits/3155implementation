@@ -22,9 +22,9 @@ Open the local URL printed in the terminal.
 
 ## Features
 
-The login screen provides username and password fields and separate Professor Login, Student Login, and Sign Up actions. Choosing Professor Login opens the professor dashboard, which follows the approved Figma Professor Home screen and includes dashboard search, a navigation menu, and Profile, View Applicants, Posts, and Log Out shortcuts. Choosing Student Login or Sign Up displays local feedback.
+The login screen provides username and password fields and separate Professor Login, Student Login, and Sign Up actions. Choosing Professor Login opens the professor dashboard, which follows the approved Figma Professor Home screen and includes dashboard search, a navigation menu, and Profile, View Applicants, Posts, and Log Out shortcuts. View Applicants opens a listing-grouped applicant queue with listing filters, individual profiles, applied-listing status, and a sample resume preview. Professors can accept an application or decline it with a required reason; a decision summary is shown afterward, and denial reasons remain visible on the profile.
 
-**Authentication and the linked professor sections are not connected.** The required login fields are not checked against an account; Professor Login opens a local demo dashboard. Profile, applicant management, and posts are not implemented yet. Student login and sign-up remain unconnected.
+**This is a local UI demo.** Applicant profiles, resume previews, and applications use sample data. Decisions are kept in page state and reset on refresh; they are not saved to the database. Authentication and student sign-in/sign-up remain unconnected, and the required login fields are not checked against an account.
 
 ## Test
 
@@ -39,8 +39,10 @@ To manually smoke-test the current UI:
 1. Run `npm run dev` and open the local URL.
 2. Try submitting either login action with the fields empty; the browser should require the fields.
 3. Enter any username and password, then choose Professor Login; the dashboard should open.
-4. Search for dashboard shortcuts, open the navigation menu, and verify its links are available.
-5. Choose Log Out; the login screen should return. Student Login and Sign Up should display messages that those features are not connected.
+4. Choose View Applicants; verify applicants are grouped by listing and that the listing filter and search narrow the results.
+5. Open an applicant profile, inspect their applied listings and sample resume preview, and select an application to review.
+6. Accept an application; verify the accepted result screen and status on the profile. For another application, decline it with a reason and verify that the reason appears on both the result screen and profile.
+7. Open the navigation menu and choose Log Out; the login screen should return. Student Login and Sign Up should display messages that those features are not connected.
 
 These checks verify the local UI only; they do not verify credentials or backend behavior.
 
