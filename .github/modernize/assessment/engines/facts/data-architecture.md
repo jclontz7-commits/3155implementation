@@ -1,4 +1,11 @@
-# Data Architecture & Persistence Layer
+# Historical Data Architecture Assessment
+
+> This assessment snapshot predates the merge with `main`; its entity inventory
+> and Mermaid diagram are not the current schema. The authoritative model and
+> constraints are documented in [docs/DATABASE.md](../../../../../docs/DATABASE.md)
+> and [docs/uml/shared-data-class.puml](../../../../../docs/uml/shared-data-class.puml).
+> The professor applicant-review page remains a sample-data UI, not an
+> authenticated application API.
 
 The application now has a PostgreSQL persistence foundation with six relational entities and Prisma Client 7. The React client has no direct database access; authentication and an API boundary are still required before the application service can be exposed.
 
@@ -15,11 +22,11 @@ Prisma Migrate owns schema changes. The Compose database persists local data in 
 
 | Service | Tables Owned | ORM Framework | Caching | Notes |
 |---|---|---|---|---|
-| Persistence module (`server/`) | User, StudentProfile, ProfessorProfile, ResearchOpportunity, Resume, Application | Prisma Client 7 | None | Access code is separate from React UI; future API must derive the student identity from an authenticated server session |
+| Persistence module (`src/data/`) | User, StudentProfile, ProfessorProfile, FileAsset, Opportunity, ResearchArea, OpportunityResearchArea, Application, Conversation, Message | Prisma Client 7 | None | Server-side access operations require trusted identity; applicant demo is not wired to an API |
 
 ## Entity Model
 
-Entities are defined in [schema.prisma](../../../../../prisma/schema.prisma). Application submission logic is in [application-service.ts](../../../../../server/application-service.ts), with PostgreSQL access in [prisma-application-repository.ts](../../../../../server/prisma-application-repository.ts). The current repository has no transaction boundary for application submission because the UI/API and trusted identity layer are not yet wired.
+Entities are defined in [schema.prisma](../../../../../prisma/schema.prisma). Server-side application and decision operations are in [src/data/index.ts](../../../../../src/data/index.ts), with shared input validation in [src/data/validation.ts](../../../../../src/data/validation.ts). The professor applicant-review page remains a sample-data UI and is not connected to an authenticated application API.
 
 <!-- mermaid-checked: every attribute is `<type> <name> [<key>] ["<description>"]` with at most one of PK/FK/UK, no \n in descriptions, no {} in descriptions, every relationship label is double-quoted -->
 ```mermaid
@@ -87,7 +94,7 @@ The database enforces one application per student/opportunity, foreign-key owner
 
 | Service | Repository | Notable Methods | Purpose |
 |---|---|---|---|
-| Persistence module | `PrismaApplicationRepository` ([source](../../../../../server/prisma-application-repository.ts)) | `findStudentProfile(userId)`, `findOpportunity(id)`, `createApplication({ studentId, opportunityId })` | Verify a student profile and opportunity, persist a pending application, and map a unique-constraint violation to a conflict error |
+| Persistence module | `createDataAccess(db)` ([source](../../../../../src/data/index.ts)) | `listApplicants`, `decideApplication` | List applicants for a professor-owned opportunity and record accept/decline decisions with denial reasons |
 
 Prisma model delegates provide standard create/read/update/delete operations for other models; no additional repository methods or raw SQL queries are exposed. The application repository relies on PostgreSQL's unique constraint to handle concurrent duplicate submissions safely.
 

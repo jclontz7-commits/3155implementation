@@ -1,5 +1,9 @@
 # Sprint 2 Data Model Proposal
 
+> Historical proposal superseded by the merged schema. The current model and
+> database rules are in [docs/DATABASE.md](../DATABASE.md), with the canonical
+> diagram in [shared-data-class.puml](./shared-data-class.puml).
+
 ## Baseline before Sprint 2
 
 The project is a React 19, TypeScript 5.9, and Vite 7 client application. Its dependencies currently contain no backend, authentication provider, database client, ORM, migration tool, or persistence layer. The login screen and professor dashboard keep their state in React; the README explicitly describes authentication and linked professor sections as unconnected.

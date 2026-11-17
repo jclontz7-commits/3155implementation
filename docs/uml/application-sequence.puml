@@ -1,50 +1,55 @@
 @startuml
-title Sprint 2 - Apply to a research opportunity
-hide footbox
-autonumber
 skinparam shadowing false
-skinparam sequence {
-  ArrowColor #355070
-  LifeLineBorderColor #78909C
-  LifeLineBackgroundColor #F7F9FC
-  ParticipantBorderColor #355070
-  ParticipantBackgroundColor #EAF0F7
-  BoxBorderColor #78909C
-}
-
-actor Student
-boundary "Research Listings UI" as UI
-control "Application Service" as Service
-entity "Application Repository" as Repository
-database "Relational Database" as DB
-
-Student -> UI: Select opportunity and choose Apply
-UI -> Service: apply(opportunityId)
-Service -> Service: Resolve authenticated student identity
-Service -> Repository: findByStudentAndOpportunity(studentId, opportunityId)
-Repository -> DB: SELECT application by student and opportunity
-DB --> Repository: Existing application or none
-Repository --> Service: Existing application or none
-
-alt Already applied
-  Service --> UI: Conflict - application already exists
-  UI --> Student: Show existing application state
-else No existing application
-  Service -> Repository: findOpenOpportunity(opportunityId)
-  Repository -> DB: SELECT opportunity and status
-  DB --> Repository: Opportunity
-  Repository --> Service: Opportunity
-  alt Opportunity is closed or missing
-    Service --> UI: Reject - opportunity is unavailable
-    UI --> Student: Show unavailable message
-  else Opportunity is open
-    Service -> Service: Validate student profile and application rules
-    Service -> Repository: createPending(studentId, opportunityId)
-    Repository -> DB: INSERT pending application
-    DB --> Repository: Persisted application
-    Repository --> Service: Saved application
-    Service --> UI: Application submitted
-    UI --> Student: Show confirmation
+skinparam backgroundColor white
+skinparam sequenceMessageAlign center
+title Issue #3 — implemented data-access flow to apply for an opportunity
+actor "Future authenticated server\n(UI/API integration is separate)" as Caller
+control "createDataAccess(db)" as DAL
+participant "PrismaClient + pg adapter" as ORM
+database "PostgreSQL" as DB
+Caller -> DAL: apply(session.userId, opportunityId)
+DAL -> DAL: Validate UUIDs
+DAL -> ORM: Find actor; require STUDENT
+ORM -> DB: SELECT User
+DB --> ORM: User or missing
+ORM --> DAL: Identity + stored role
+alt Missing user / wrong role
+  DAL --> Caller: FORBIDDEN; no write
+else Authorized student
+  DAL -> ORM: Begin transaction
+  ORM -> DB: BEGIN
+  DAL -> ORM: Lock opportunity FOR SHARE
+  ORM -> DB: SELECT id FOR SHARE
+  DB --> ORM: Matching ID or no rows
+  ORM --> DAL: Matching ID or no rows
+  alt Missing / unpublished / expired opportunity
+    DAL -> ORM: Throw NOT_FOUND / INVALID
+    ORM -> DB: ROLLBACK
+    DAL --> Caller: Typed error
+  else Open published opportunity
+    DAL -> ORM: Read opportunity + StudentProfile.resumeId
+    ORM -> DB: SELECT Opportunity and StudentProfile
+    DB --> ORM: Current records
+    ORM --> DAL: Current records
+    DAL -> ORM: Create pending Application with resumeFileId snapshot
+    ORM -> DB: INSERT Application
+    DB -> DB: Validate open post, owner/purpose, unique student/post
+    alt Duplicate application / invalid reference / storage failure
+      DB --> ORM: Reject insert
+      ORM -> DB: ROLLBACK
+      ORM --> DAL: Error
+      DAL --> Caller: CONFLICT for duplicate; otherwise validation/storage error
+    else Valid application
+      DB --> ORM: Application
+      ORM -> DB: COMMIT
+      ORM --> DAL: Committed application
+      DAL --> Caller: Application + PENDING status
+    end
   end
 end
+note over DAL,DB
+  The saved resume reference is immutable.
+  Replacing the student's current resume does not change this application.
+  Referenced files cannot be deleted; file bytes are managed separately.
+end note
 @enduml
