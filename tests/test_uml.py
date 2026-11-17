@@ -15,11 +15,11 @@ spec.loader.exec_module(generator)
 
 class SharedUmlTests(unittest.TestCase):
     def test_class_diagram_tracks_schema(self):
-        self.assertEqual((UML / 'shared-data-class.puml').read_text(), generator.generate(),
+        self.assertEqual((UML / 'shared-data-class.puml').read_text(encoding='utf-8'), generator.generate(),
                          'Regenerate class diagram after changing the Prisma schema')
 
     def test_rendered_artifacts_are_current_and_valid(self):
-        manifest = json.loads((UML / 'render-manifest.json').read_text())
+        manifest = json.loads((UML / 'render-manifest.json').read_text(encoding='utf-8'))
         self.assertEqual(set(manifest['artifacts']), {'shared-data-class.puml', 'application-sequence.puml', 'messaging-sequence.puml'})
         for name, hashes in manifest['artifacts'].items():
             with self.subTest(diagram=name):

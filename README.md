@@ -1,25 +1,31 @@
-# Student Messaging Page
+# Campus Research Portal
 
-Standalone messaging feature for students and professors to discuss research
-opportunities. This branch contains the messaging page and its supporting
-API/database code. Student/professor profile pages and profile-editing APIs
-are kept on their separate feature branches.
+The local project includes a student/professor messaging page and a
+Figma-inspired professor applicant-review demo.
 
 ## Features
 
 - Find professors or students by name, research topic, department or major.
-- Open or start a conversation and send messages in either direction.
-- View saved conversation history, including older messages.
-- Refresh incoming replies and safely retry a failed send.
+- Open or start a conversation, send messages in either direction, and view
+  saved conversation history.
+- Open the **Professor applicant review demo** link from the messaging page
+  (or visit `/applicants.html`) to review applicants grouped by research
+  listing. The demo supports listing filters, individual profiles, sample
+  resume previews, per-listing accept/decline decisions, and denial reasons.
 
-[Figma messaging design](https://www.figma.com/proto/d0P8tCCwxmCInTN8C4LEjg/Main?node-id=189-288)
+Applicant profiles, resumes, and applications use sample data. Review
+decisions are held in page state and reset on refresh; they are not saved to
+the database. Authentication and applicant APIs are not connected. The
+existing database model supports applications, resumes, and decisions, but
+the applicant demo is not wired to those server-side operations.
 
 ## Run locally
 
-Requires Node 24 and a local PostgreSQL development database. Follow
-[database setup](docs/DATABASE.md) if you have not configured one yet.
+Requires Node.js 24 and npm. For the messaging database, follow the
+[database setup](docs/DATABASE.md); it configures a local-only PostgreSQL
+database and sample data.
 
-```bash
+```sh
 npm ci
 npm run db:generate
 npm run db:init
@@ -27,22 +33,26 @@ npm run db:seed
 npm start
 ```
 
-Open **http://127.0.0.1:8000/**. The app opens directly to Messages. Choose the
-sample student or professor to demonstrate both sides. These are local demo
-sessions; production authentication is not configured.
+Open **http://127.0.0.1:8000/**. `npm start` builds the applicant page and
+starts the messaging server. To preview only the applicant UI without the
+messaging database, run `npm run dev`; Vite opens `/applicants.html`.
 
-If port 8000 is occupied, run `PORT=8001 npm start` and open
-**http://127.0.0.1:8001/** instead.
+If port 8000 is occupied, set `PORT=8001` before `npm start` and open
+**http://127.0.0.1:8001/**.
 
 ## Test
 
-```bash
+```sh
 npm run lint
 npm run typecheck
 npm test
 npm run test:db
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p 'test_uml.py' -v
 ```
+
+The database integration tests require `TEST_DATABASE_URL` to point to a
+separate local test database with migrations applied. Never use production
+credentials or databases for local development or tests.
 
 [Messaging behavior and acceptance criteria](docs/MESSAGING.md) ·
 [Database setup](docs/DATABASE.md) · [UML diagrams](docs/uml/README.md)

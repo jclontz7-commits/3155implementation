@@ -35,13 +35,13 @@ def main():
         root = ET.parse(rendered).getroot()
         if root.tag != '{http://www.w3.org/2000/svg}svg':
             raise ValueError(f'{rendered.name} is not SVG')
-        if 'Syntax Error' in rendered.read_text():
+        if 'Syntax Error' in rendered.read_text(encoding='utf-8'):
             raise ValueError(f'{rendered.name} contains a renderer error')
         artifacts[name] = {'source_sha256': digest(source),
                            'svg_sha256': digest(rendered)}
-    (UML / 'render-manifest.json').write_text(
-        json.dumps({'plantuml_version': VERSION, 'jar_sha256': JAR_SHA256,
-                    'artifacts': artifacts}, indent=2) + '\n')
+    with (UML / 'render-manifest.json').open('w', encoding='utf-8', newline='\n') as manifest:
+        manifest.write(json.dumps({'plantuml_version': VERSION, 'jar_sha256': JAR_SHA256,
+                                   'artifacts': artifacts}, indent=2) + '\n')
     print('Rendered shared database and messaging diagrams and recorded checksums.')
 
 

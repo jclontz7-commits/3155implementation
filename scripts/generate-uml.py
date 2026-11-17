@@ -8,7 +8,7 @@ TARGET = ROOT / 'docs/uml/shared-data-class.puml'
 
 
 def generate():
-    schema = SCHEMA.read_text()
+    schema = SCHEMA.read_text(encoding='utf-8')
     models = dict(re.findall(r'^model (\w+) \{\n(.*?)^\}', schema, re.M | re.S))
     enums = dict(re.findall(r'^enum (\w+) \{\n(.*?)^\}', schema, re.M | re.S))
     lines = ['@startuml', '!pragma layout smetana', 'skinparam classAttributeIconSize 0',
@@ -56,5 +56,6 @@ def generate():
 
 
 if __name__ == '__main__':
-    TARGET.write_text(generate())
+    with TARGET.open('w', encoding='utf-8', newline='\n') as diagram:
+        diagram.write(generate())
     print('Generated shared-data-class.puml from Prisma schema.')

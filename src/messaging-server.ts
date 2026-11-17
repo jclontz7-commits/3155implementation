@@ -9,7 +9,8 @@ import { createMessagingRoutes } from './messaging-routes.js';
 
 const ASSETS = ['f11f2','ab844','83cf7','f783a','850ca','dc74e','2117f','8f49d','4184f','1d1ef','59873','2e783','01e82','dfdd3','0c220','3abf1','73998','6c756','69b48','c738a'];
 const PUBLIC_FILES = new Set(['index.html', 'app.js', 'messaging.js', 'messaging.css', ...ASSETS.map(name => `assets/messaging/${name}.svg`)]);
-const MIME: Record<string, string> = { html: 'text/html', css: 'text/css', js: 'text/javascript', svg: 'image/svg+xml' };
+const APPLICANT_ASSET = /^applicant-assets\/[A-Za-z0-9][A-Za-z0-9._-]*\.(?:js|css|svg|png)$/;
+const MIME: Record<string, string> = { html: 'text/html', css: 'text/css', js: 'text/javascript', svg: 'image/svg+xml', png: 'image/png' };
 
 export function createMessagingServer(db: PrismaClient, options: { professorId?: string; studentId?: string; root?: string } = {}) {
   if (process.env.NODE_ENV === 'production') throw new Error('The sample messaging server is development-only.');
@@ -28,8 +29,13 @@ export function createMessagingServer(db: PrismaClient, options: { professorId?:
     if (path.startsWith('/api/')) throw new HttpError(404, 'Endpoint not found.');
     if (!['GET', 'HEAD'].includes(request.method ?? '')) throw new HttpError(405, 'Method not allowed.');
     const file = path === '/' ? 'index.html' : path.slice(1);
-    if (!PUBLIC_FILES.has(file)) throw new HttpError(404, 'Page not found.');
-    const content = await readFile(join(root, file));
+    const filePath = PUBLIC_FILES.has(file)
+      ? join(root, file)
+      : file === 'applicants.html' || APPLICANT_ASSET.test(file)
+        ? join(root, 'dist', file)
+        : undefined;
+    if (!filePath) throw new HttpError(404, 'Page not found.');
+    const content = await readFile(filePath);
     response.writeHead(200, { 'Content-Type': `${MIME[file.split('.').pop() ?? ''] ?? 'application/octet-stream'}; charset=utf-8`, 'Cache-Control': 'no-store' });
     response.end(request.method === 'HEAD' ? undefined : content);
   }
