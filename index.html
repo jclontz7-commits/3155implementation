@@ -80,11 +80,12 @@
             <h1 class="visually-hidden" id="listings-heading">Research Listings</h1>
             <p class="results-status" id="results-status" role="status" aria-live="polite"></p>
             <div class="listing-results" id="listing-results">
-              <article class="listing-card" data-area="General Research" data-search="opportunity 1 academia rich experience">
+              <a class="listing-card listing-link" href="#opportunity-1" data-area="General Research" data-search="opportunity 1 academia rich experience">
                 <h2>Opportunity 1</h2>
                 <p>This opportunity provides rich experience for the field of academia.</p>
                 <span class="listing-area">General Research</span>
-              </article>
+                <span class="listing-open-hint">View opportunity details <span aria-hidden="true">&rsaquo;</span></span>
+              </a>
               <article class="listing-card" data-area="Computer Science, Robotics, Artificial Intelligence" data-search="opportunity 2 computer vision robotics ai models human reality infer conclusions">
                 <h2>Opportunity 2: Computer Vision for Robotics</h2>
                 <p>How can we make AI models interpret human reality to then infer and form conclusions?</p>
@@ -117,6 +118,43 @@
               </article>
             </div>
             <p class="no-results" id="no-results" hidden>No research listings matched your search. Try another keyword or area of study.</p>
+          </div>
+        </section>
+
+        <section class="opportunity-screen" id="opportunity-screen" aria-labelledby="opportunity-heading" hidden>
+          <div class="opportunity-toolbar">
+            <button class="toolbar-button" id="back-listings" type="button">Back</button>
+          </div>
+          <div class="opportunity-content">
+            <h1 id="opportunity-heading">Opportunity 1</h1>
+            <article class="opportunity-details">
+              <section aria-labelledby="description-heading">
+                <h2 id="description-heading">Description</h2>
+                <p>This opportunity provides rich experiences for the field of academia. In this opportunity, you will be researching about academia research and will be the best researcher possible. We at this opportunity love research and empower students with research and academia.</p>
+              </section>
+              <section class="professor-contact" id="professor-contact" aria-labelledby="contact-heading">
+                <h2 id="contact-heading" tabindex="-1">Contact Info</h2>
+                <address>
+                  <span>Real Teacher</span>
+                  <a href="mailto:realteacher@charlotte.edu">realteacher@charlotte.edu</a>
+                  <a href="tel:1234567890">123-456-7890</a>
+                </address>
+              </section>
+            </article>
+            <div class="opportunity-actions">
+              <button class="secondary-action" id="professor-profile" type="button">Professor Profile</button>
+              <button class="apply-button" id="apply-button" type="button">Apply</button>
+            </div>
+            <p class="application-status" id="application-status" role="status" aria-live="polite"></p>
+            <section class="members-section" aria-labelledby="members-heading">
+              <h2 id="members-heading">Members</h2>
+              <ul class="member-list">
+                <li class="member-card"><span class="member-avatar" aria-hidden="true"></span><span>College Student Smith</span></li>
+                <li class="member-card"><span class="member-avatar" aria-hidden="true"></span><span>College C. Student</span></li>
+                <li class="member-card"><span class="member-avatar" aria-hidden="true"></span><span>Emily Evans</span></li>
+                <li class="member-card"><span class="member-avatar" aria-hidden="true"></span><span>Carlos Cernan</span></li>
+              </ul>
+            </section>
           </div>
         </section>
       </main>

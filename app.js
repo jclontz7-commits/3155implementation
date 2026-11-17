@@ -11,23 +11,61 @@ const noResults = document.querySelector("#no-results");
 const listingCards = [...document.querySelectorAll(".listing-card")];
 const researchListingsButton = document.querySelector("#research-listings");
 const backHomeButton = document.querySelector("#back-home");
+const opportunityScreen = document.querySelector("#opportunity-screen");
+const backListingsButton = document.querySelector("#back-listings");
+const professorProfileButton = document.querySelector("#professor-profile");
+const professorContact = document.querySelector("#contact-heading");
+const applyButton = document.querySelector("#apply-button");
+const applicationStatus = document.querySelector("#application-status");
+const applicationStorageKey = "campusResearch:application:opportunity-1";
+
+function renderRoute() {
+  const route = window.location.hash.slice(1);
+  const showOpportunity = route === "opportunity-1";
+  const showListings = route === "research-listings" || showOpportunity;
+
+  homeScreen.hidden = showListings;
+  listingsScreen.hidden = !showListings || showOpportunity;
+  opportunityScreen.hidden = !showOpportunity;
+  document.querySelector(".student-app").classList.toggle("opportunity-view", showOpportunity);
+
+  if (showOpportunity) {
+    document.title = "Opportunity 1 | Campus Research";
+  } else if (showListings) {
+    document.title = "Research Listings | Campus Research";
+    updateListings();
+  } else {
+    document.title = "Student Home | Campus Research";
+  }
+}
+
+function navigateTo(route) {
+  const nextHash = `#${route}`;
+  if (window.location.hash !== nextHash) {
+    window.location.hash = route;
+  }
+  renderRoute();
+}
 
 function openListings() {
-  homeScreen.hidden = true;
-  listingsScreen.hidden = false;
-  document.title = "Research Listings | Campus Research";
-  updateListings();
+  navigateTo("research-listings");
   searchInput.focus();
 }
 
 function openHome() {
-  listingsScreen.hidden = true;
-  homeScreen.hidden = false;
   searchInput.value = "";
   areaFilter.value = "";
-  document.title = "Student Home | Campus Research";
-  updateListings();
+  navigateTo("home");
   researchListingsButton.focus();
+}
+
+function updateApplicationState() {
+  const hasApplied = localStorage.getItem(applicationStorageKey) === "true";
+  applyButton.disabled = hasApplied;
+  applyButton.textContent = hasApplied ? "Application Submitted" : "Apply";
+  applicationStatus.textContent = hasApplied
+    ? "Your application has been saved in this browser."
+    : "";
 }
 
 function updateListings() {
@@ -86,6 +124,7 @@ backdrop.addEventListener("click", () => setMenuOpen(false));
 menu.addEventListener("click", (event) => {
   const link = event.target.closest("a");
   if (link) {
+    event.preventDefault();
     setMenuOpen(false);
 
     if (link.hash === "#research-listings") {
@@ -98,6 +137,15 @@ menu.addEventListener("click", (event) => {
 
 researchListingsButton.addEventListener("click", openListings);
 backHomeButton.addEventListener("click", openHome);
+backListingsButton.addEventListener("click", () => navigateTo("research-listings"));
+professorProfileButton.addEventListener("click", () => {
+  professorContact.scrollIntoView({ behavior: "smooth", block: "center" });
+  professorContact.focus({ preventScroll: true });
+});
+applyButton.addEventListener("click", () => {
+  localStorage.setItem(applicationStorageKey, "true");
+  updateApplicationState();
+});
 searchInput.addEventListener("input", () => {
   if (listingsScreen.hidden) {
     openListings();
@@ -107,6 +155,9 @@ searchInput.addEventListener("input", () => {
   updateListings();
 });
 areaFilter.addEventListener("change", updateListings);
+window.addEventListener("hashchange", renderRoute);
+updateApplicationState();
+renderRoute();
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !menu.hidden) {
