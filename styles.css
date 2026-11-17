@@ -86,7 +86,7 @@ input {
   outline: 0;
   color: #fff;
   background: #858585;
-  font-size: 8px;
+  font-size: 12px;
 }
 
 .search-control input::placeholder {
@@ -106,6 +106,95 @@ input {
   display: grid;
   place-items: center;
   padding: 20px;
+}
+
+.listings-screen {
+  min-height: calc(100vh - clamp(65px, 8vh, 88px));
+  padding: 20px 20px 40px;
+  background: var(--screen);
+}
+
+.listings-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.toolbar-button,
+.area-filter select {
+  min-height: 36px;
+  padding: 5px 16px;
+  border: 0;
+  border-radius: 0;
+  color: #fff;
+  background: var(--green);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.toolbar-button {
+  min-width: 90px;
+}
+
+.area-filter select {
+  max-width: min(52vw, 260px);
+  padding-right: 28px;
+}
+
+.toolbar-button:focus-visible,
+.area-filter select:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.listings-content {
+  width: min(100%, 700px);
+  margin: 86px auto 0;
+}
+
+.results-status {
+  margin: 0 2px 12px;
+  color: #34443a;
+  font-size: 13px;
+}
+
+.listing-results {
+  display: grid;
+  gap: 22px;
+}
+
+.listing-card {
+  min-width: 0;
+  padding: 14px 16px;
+  color: #fff;
+  background: var(--green);
+  overflow-wrap: anywhere;
+}
+
+.listing-card h2,
+.listing-card p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.listing-area {
+  display: block;
+  margin-top: 8px;
+  color: #e2ebdf;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.no-results {
+  margin: 0;
+  padding: 20px;
+  color: #34443a;
+  background: #f5f5f5;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .menu-backdrop {
@@ -241,6 +330,21 @@ input {
 @media (max-width: 360px) {
   .navigation-grid {
     gap: 16px;
+  }
+
+  .listings-screen {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .listings-content {
+    margin-top: 64px;
+  }
+
+  .toolbar-button,
+  .area-filter select {
+    padding-right: 10px;
+    padding-left: 10px;
   }
 }
 
