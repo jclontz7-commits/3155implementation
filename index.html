@@ -11,9 +11,7 @@
     <div class="student-app">
       <header class="top-bar">
         <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="explore-menu">
-          <svg aria-hidden="true" viewBox="0 0 24 24">
-            <path d="M5 7h14M5 12h14M5 17h14"></path>
-          </svg>
+          <img src="assets/figma-menu.svg" alt="">
         </button>
         <label class="search-control">
           <span class="visually-hidden">Search research listings by keyword or area of study</span>
@@ -36,7 +34,7 @@
       <main>
         <section class="home-content" id="home-screen" aria-label="Student home">
           <nav class="navigation-grid" aria-label="Student navigation">
-            <button class="navigation-button" id="profile" type="button">
+            <button class="navigation-button" id="open-profile" type="button">
               <svg aria-hidden="true" viewBox="0 0 24 24">
                 <circle cx="12" cy="7.5" r="3.5"></circle>
                 <path d="M5 20v-1.5a7 7 0 0 1 14 0V20"></path>
@@ -154,6 +152,97 @@
                 <li class="member-card"><span class="member-avatar" aria-hidden="true"></span><span>Emily Evans</span></li>
                 <li class="member-card"><span class="member-avatar" aria-hidden="true"></span><span>Carlos Cernan</span></li>
               </ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="profile-screen" id="profile-screen" aria-labelledby="profile-heading" hidden>
+          <div class="profile-toolbar">
+            <button class="toolbar-button" id="back-profile" type="button">Back</button>
+            <button class="toolbar-button profile-edit-toggle" id="edit-profile" type="button" aria-expanded="false" aria-controls="profile-edit-form">Edit Profile</button>
+          </div>
+          <div class="profile-content">
+            <h1 id="profile-heading" tabindex="-1">Emily Evans</h1>
+            <div class="profile-overview">
+              <label class="profile-photo-picker" for="profile-photo-input">
+                <img id="profile-photo" src="assets/figma-profile-photo.png" alt="Emily Evans profile picture">
+                <span class="profile-photo-placeholder" id="profile-photo-placeholder" aria-hidden="true" hidden>EE</span>
+                <span class="visually-hidden">Upload or change profile picture</span>
+                <input class="visually-hidden" id="profile-photo-input" type="file" accept="image/*" aria-label="Upload or change profile picture">
+              </label>
+              <div class="profile-facts" aria-label="Student information">
+                <p><strong>Major:</strong> <span id="profile-major"></span></p>
+                <p><strong>Concentration:</strong> <span id="profile-concentration"></span></p>
+                <p><strong>Year:</strong> <span id="profile-year"></span></p>
+              </div>
+            </div>
+
+            <form class="profile-edit-form" id="profile-edit-form" hidden>
+              <label>
+                Name
+                <input id="edit-name" name="name" type="text" autocomplete="name" required maxlength="80">
+              </label>
+              <label>
+                Major
+                <input id="edit-major" name="major" type="text" required maxlength="80">
+              </label>
+              <label>
+                Concentration
+                <input id="edit-concentration" name="concentration" type="text" maxlength="80">
+              </label>
+              <label>
+                Year in school
+                <select id="edit-year" name="year" required>
+                  <option value="Freshman">Freshman</option>
+                  <option value="Sophomore">Sophomore</option>
+                  <option value="Junior">Junior</option>
+                  <option value="Senior">Senior</option>
+                  <option value="Graduate">Graduate</option>
+                </select>
+              </label>
+              <label class="profile-about-edit">
+                About me
+                <textarea id="edit-about" name="about" rows="4" maxlength="500"></textarea>
+              </label>
+              <div class="profile-form-actions">
+                <button class="toolbar-button" type="submit">Save Changes</button>
+                <button class="profile-cancel-button" id="cancel-profile-edit" type="button">Cancel</button>
+              </div>
+            </form>
+
+            <p class="profile-status" id="profile-status" role="status" aria-live="polite"></p>
+
+            <section class="profile-about" aria-labelledby="about-heading">
+              <h2 id="about-heading">About Me</h2>
+              <p id="profile-about"></p>
+            </section>
+
+            <section class="resume-section" aria-labelledby="resume-heading">
+              <h2 class="visually-hidden" id="resume-heading">Resume</h2>
+              <label class="resume-upload" for="resume-input">
+                <span class="upload-icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" focusable="false">
+                    <path d="M24 31V4m0 0L13 15M24 4l11 11M7 29v12h34V29"></path>
+                  </svg>
+                </span>
+                <span class="resume-upload-button">
+                  <img src="assets/figma-upload-button.svg" alt="">
+                  <span>Upload Resume</span>
+                </span>
+                <input class="visually-hidden" id="resume-input" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-label="Upload resume">
+              </label>
+              <div class="resume-file" id="resume-file" hidden>
+                <span id="resume-filename"></span>
+                <button class="profile-cancel-button" id="download-resume" type="button">Download</button>
+                <button class="profile-cancel-button" id="remove-resume" type="button">Remove</button>
+              </div>
+              <p class="resume-status" id="resume-status" role="status" aria-live="polite"></p>
+            </section>
+
+            <section class="applied-listings" aria-labelledby="applied-heading">
+              <h2 id="applied-heading">Applied Listings</h2>
+              <p class="empty-applications" id="empty-applications">You haven't applied to any research listings yet.</p>
+              <ul class="applied-list" id="applied-list"></ul>
             </section>
           </div>
         </section>
